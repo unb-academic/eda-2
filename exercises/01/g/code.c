@@ -26,6 +26,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#define MAX 9999
+
 typedef int item;
 
 typedef struct _node
@@ -36,9 +38,9 @@ typedef struct _node
 
 typedef struct _queue
 {
-    struct _node *front;
-    struct _node *rear;
+    item *array;
     int size;
+    int size_multiplier;
 } queue;
 
 typedef struct _stack
@@ -58,10 +60,15 @@ node *node_new(item value)
 queue *queue_new()
 {
     queue *q = malloc(sizeof(queue));
-    q->front = NULL;
-    q->rear = NULL;
+    q->size_multiplier = 1;
+    q->array = malloc(sizeof(item) * MAX * q->size_multiplier);
     q->size = 0;
     return q;
+    // queue *q = malloc(sizeof(queue));
+    // q->front = NULL;
+    // q->rear = NULL;
+    // q->size = 0;
+    // return q;
 }
 
 stack *stack_new()
@@ -72,20 +79,48 @@ stack *stack_new()
     return s;
 }
 
-void queue_enqueue(queue *q, item value)
+int queue_enqueue(queue *q, item value)
 {
-    node *n = node_new(value);
-    if (q->rear == NULL)
+    int *ptr;
+
+    if (q->size == MAX * q->size_multiplier)
     {
-        q->front = n;
-        q->rear = n;
+        q->size_multiplier++;
+        ptr = realloc(q->array, sizeof(item) * MAX * q->size_multiplier);
+
+        if (ptr == NULL)
+            // We could not realloc, return 1 to indicate failure.
+            return 1;
+
+        q->array = ptr;
     }
-    else
-    {
-        q->rear->next = n;
-        q->rear = n;
-    }
+
+    q->array[q->size] = value;
     q->size++;
+
+    return 0;
+
+    // if (q->size == MAX)
+    //     ptr = realloc(q->array, q->size + MAX);
+
+    // if (ptr == NULL)
+    //     return 1;
+    // else
+    //     q->array = ptr;
+
+    // return 0;
+    // node *n = node_new(value);
+    // if (q->rear == NULL)
+    // {
+    //     q->front = n;
+    //     q->rear = n;
+    // }
+    // else
+    // {
+    //     q->rear->next = n;
+    //     q->rear = n;
+    // }
+    // q->size++;
 }
 
 void stack_push(stack *s, item value)
@@ -99,14 +134,12 @@ void stack_push(stack *s, item value)
 
 item queue_dequeue(queue *q)
 {
-    node *n = q->front;
+    item value = q->array[0];
 
-    q->front = n->next;
+    for (int i = 0; i < q->size; i++)
+        q->array[i] = q->array[i + 1];
+
     q->size--;
-
-    item value = n->value;
-    free(n);
-
     return value;
 }
 
@@ -125,15 +158,12 @@ item stack_pop(stack *s)
 
 void queue_print(queue *q)
 {
-    node *n = q->front;
-
     printf("[");
-    while (n)
+    for (int i = 0; i < q->size; ++i)
     {
-        printf("%d", n->value);
-        n = n->next;
+        printf("%d", q->array[i]);
 
-        if (n)
+        if (i < q->size - 1)
             printf(", ");
     }
     printf("]\n");
@@ -168,7 +198,10 @@ int main()
         if (N == 0)
             break;
 
-        queue_enqueue(q, N);
+        int res = queue_enqueue(q, N);
+
+        if (res == 1)
+            return 1;
     }
 
     scanf("%d", &L);
