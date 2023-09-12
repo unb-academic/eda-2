@@ -64,11 +64,6 @@ queue *queue_new()
     q->array = malloc(sizeof(item) * MAX * q->size_multiplier);
     q->size = 0;
     return q;
-    // queue *q = malloc(sizeof(queue));
-    // q->front = NULL;
-    // q->rear = NULL;
-    // q->size = 0;
-    // return q;
 }
 
 stack *stack_new()
@@ -99,28 +94,6 @@ int queue_enqueue(queue *q, item value)
     q->size++;
 
     return 0;
-
-    // if (q->size == MAX)
-    //     ptr = realloc(q->array, q->size + MAX);
-
-    // if (ptr == NULL)
-    //     return 1;
-    // else
-    //     q->array = ptr;
-
-    // return 0;
-    // node *n = node_new(value);
-    // if (q->rear == NULL)
-    // {
-    //     q->front = n;
-    //     q->rear = n;
-    // }
-    // else
-    // {
-    //     q->rear->next = n;
-    //     q->rear = n;
-    // }
-    // q->size++;
 }
 
 void stack_push(stack *s, item value)
