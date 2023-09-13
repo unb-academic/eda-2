@@ -85,40 +85,6 @@ void mescla_listas(celula *l1, celula *l2, celula *l3)
     }
 }
 
-void mescla_listas(celula *l1, celula *l2, celula *l3)
-{
-    // Some base cases
-    if (l1 == NULL && l2 == NULL)
-        return;
-    else if (l1 == NULL)
-    {
-        l3->prox = l2;
-        return;
-    }
-    else if (l2 == NULL)
-    {
-        l3->prox = l1;
-        return;
-    }
-
-    celula *aux;
-
-    if (l1->dado < l2->dado)
-    {
-        aux = l1->prox;
-        l3->prox = l1;
-        l1->prox = NULL;
-        mescla_listas(aux, l2, l3->prox);
-    }
-    else
-    {
-        aux = l2->prox;
-        l3->prox = l2;
-        l2->prox = NULL;
-        mescla_listas(l1, aux, l3->prox);
-    }
-}
-
 void insert_iterative(celula *node, celula *new)
 {
     while (node->prox != NULL)
