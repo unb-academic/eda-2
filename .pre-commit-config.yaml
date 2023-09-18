@@ -7,6 +7,7 @@ repos:
     - id: trailing-whitespace
     - id: check-yaml
     - id: check-added-large-files
+      args: ['--maxkb=50192']
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v2.40.0
     hooks:
