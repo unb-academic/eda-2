@@ -1,8 +1,0 @@
-3 2
-abelha
-elefante
-borboleta
-elefante borboleta
-abelha borboleta
-
-0 0
