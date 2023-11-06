@@ -88,7 +88,6 @@ bool graph_floyd_warshall(int N, int G[N][N])
                     if (dist[k][j] == 1)
                         dist[i][j] = 1;
 
-    // check if dist is a strongly connected graph
     for (int i = 0; i < N; i++)
         for (int j = 0; j < N; j++)
             if (dist[i][j] == 0)
@@ -107,7 +106,6 @@ int main()
         if (N == 0 && M == 0)
             break;
 
-        // graph_t *G = graph_create(M);
         int G[N][N];
         memset(G, 0, sizeof(G));
 
